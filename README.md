@@ -11,4 +11,4 @@ Student Info
 
 * Student Name: Nguyen Khang Ninh
 * Student ID: BI12-341
-* Student Group ID: Not-for-now
+* Student Group ID: G2 CS
