@@ -1,0 +1,179 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{lmodern}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage{graphicx}
+\makeatletter
+\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
+\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
+\makeatother
+% Scale images if necessary, so that they will not overflow the page
+% margins by default, and it is still possible to overwrite the defaults
+% using explicit options in \includegraphics[width, height, ...]{}
+\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+% Set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\ifLuaTeX
+  \usepackage{selnolig}  % disable illegal ligatures
+\fi
+\IfFileExists{bookmark.sty}{\usepackage{bookmark}}{\usepackage{hyperref}}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same} % disable monospaced font for URLs
+\hypersetup{
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\author{}
+\date{}
+
+\begin{document}
+
+LAB 2: RPC TRANSFER SYSTEM
+
+Student: Nguyen Khang Ninh
+
+ID: BI12-341
+
+Major: Cyber Security
+
+\hypertarget{rpc-system-design}{%
+\section{1. RPC System Design:}\label{rpc-system-design}}
+
+\begin{itemize}
+\item
+  For designing the RPC service, we can use ONC RPC (Open Network
+  Computing Remote Procedure Call) framework. The service will consist
+  of a remote procedure \textbf{TRANSFER\_FILE} that accepts a filename
+  and file data as parameters and returns an integer status indicating
+  the success or failure of the file transfer operation.
+\end{itemize}
+
+\begin{quote}
+\includegraphics[width=5.47547in,height=4.36705in]{vertopal_0252a75a399e4c5197408cf7c211ee60/media/image1.png}
+\end{quote}
+
+\begin{itemize}
+\item
+  Here is my code in the IDL file. This IDL defines a program
+  \textbf{FILE\_TRANSFER} with a version
+  \textbf{FILE\_TRANSFER\_VERSION} that contains a remote procedure
+  \textbf{TRANSFER\_FILE}. The \textbf{TRANSFER\_FILE} procedure takes a
+  filename (string) and file data (opaque binary data) as parameters and
+  returns an integer status.
+\end{itemize}
+
+\hypertarget{system-organization}{%
+\section{2. System Organization:}\label{system-organization}}
+
+\begin{itemize}
+\item
+  In the system organization, we\textquotesingle ll have two main
+  components: the server and the client:
+\end{itemize}
+
+\begin{itemize}
+\item
+  The server component will host the RPC service and handle incoming
+  file transfers from clients.
+\item
+  The client component will initiate file transfers by connecting to the
+  server and sending files.
+\end{itemize}
+
+\begin{itemize}
+\item
+  Here is the diagram that describes the system organization:
+\end{itemize}
+
++-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-+
++-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-+
+
+\textbar{} Server \textbar{} \textless-\/-\/-\/-\/-\/-\/-\textgreater{}
+\textbar{} Client \textbar{}
+
+\textbar{} RPC Service \textbar{} \textbar{} File Transfer \textbar{}
+
++-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-+
++-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-\/-+
+
+\hypertarget{file-transfer-implementation}{%
+\section{3. File transfer
+implementation:}\label{file-transfer-implementation}}
+
+\begin{itemize}
+\item
+  In the server-side implementation, we\textquotesingle ll use the
+  \textbf{TRANSFER\_FILE} procedure to receive file data from clients
+  and write it to a file.
+\end{itemize}
+
+\begin{quote}
+\includegraphics[width=5.44214in,height=2.52522in]{vertopal_0252a75a399e4c5197408cf7c211ee60/media/image2.png}
+\end{quote}
+
+\begin{itemize}
+\item
+  In the client-side implementation, we\textquotesingle ll read the file
+  to be transferred, send its contents to the server using the
+  \textbf{TRANSFER\_FILE} procedure, and handle any errors or status
+  responses received from the server.
+\end{itemize}
+
+\begin{quote}
+\includegraphics[width=6.5in,height=3.65625in]{vertopal_0252a75a399e4c5197408cf7c211ee60/media/image3.png}
+\end{quote}
+
+\hypertarget{roles}{%
+\section{4. Roles:}\label{roles}}
+
+\begin{itemize}
+\item
+  The server is responsible for hosting the RPC service and handling
+  incoming file transfers from clients. It implements the
+  \textbf{TRANSFER\_FILE} procedure to receive file data and write it to
+  a file.
+\item
+  The client is responsible for initiating file transfers by connecting
+  to the server and sending files. It reads the file to be transferred
+  and uses the \textbf{TRANSFER\_FILE} procedure to send the file data
+  to the server.
+\end{itemize}
+
+\end{document}
