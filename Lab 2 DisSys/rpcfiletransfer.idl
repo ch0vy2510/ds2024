@@ -1,0 +1,11 @@
+struct file_data {
+    unsigned int len;
+    unsigned char data<1024>;
+};
+
+program FILE_TRANSFER {
+    version FILE_TRANSFER_VERSION {
+        int TRANSFER_FILE(struct file_data data);
+    } = 1;
+} = 0x12345678;
+
